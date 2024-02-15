@@ -1,0 +1,4 @@
+Dockerifle
+.dockerignore
+node_modules
+dist
