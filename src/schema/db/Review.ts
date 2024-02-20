@@ -2,19 +2,16 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
 
 @Schema()
-export class DbPost {
+export class DbReview {
   @Prop({ required: true })
   id: string;
   
   // author of the post
   @Prop({ required: true })
-  parent: string;
+  userId: string;
 
   @Prop({ required: true })
-  title: string;
-
-  @Prop({ required: true })
-  description: string;
+  postId: string;
 
   @Prop({ required: true })
   content: string;
@@ -24,8 +21,14 @@ export class DbPost {
 
   @Prop({ required: true })
   creationDate: string;
+
+  // -1 = negative
+  // 0 = neutral
+  // 1 = positive
+  @Prop({ required: true })
+  value: number;
 }
 
-export const DbPostSchema = SchemaFactory.createForClass(DbPost);
-export type DbPostDocument = HydratedDocument<DbPost>;
-export const DbPostName = 'post';
+export const DbReviewSchema = SchemaFactory.createForClass(DbReview);
+export type DbReviewDocument = HydratedDocument<DbReview>;
+export const DbReviewName = 'review';
