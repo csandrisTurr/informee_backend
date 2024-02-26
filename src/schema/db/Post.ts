@@ -1,11 +1,11 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument } from "mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
 
 @Schema()
 export class DbPost {
   @Prop({ required: true })
   id: string;
-  
+
   // author of the post
   @Prop({ required: true })
   parent: string;
