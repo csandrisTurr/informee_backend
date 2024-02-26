@@ -13,3 +13,12 @@ export class RegisterUserDto {
     @IsString()
     password: string;
 }
+
+export class LoginUserDto {
+    @IsEmail()
+    email: string;
+
+    // TODO: add check for sha512
+    @IsString()
+    password: string;
+}
