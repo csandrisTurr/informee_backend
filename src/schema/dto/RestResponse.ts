@@ -1,6 +1,6 @@
 import { Response } from "express";
 
-export class RestResponse<T = undefined> {
+export class RestResponse<T = any> {
     message: string;
     status: number;
     type: 'success' | 'error';
