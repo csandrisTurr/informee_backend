@@ -6,7 +6,7 @@ export class RestResponse<T = any> {
     type: 'success' | 'error';
     data: T;
 
-    public static ok<T>(data: T, status: number) {
+    public static ok<T>(data: T, status?: number) {
         let res = new RestResponse<T>();
         res.type = 'success';
         res.status = status || 200;
