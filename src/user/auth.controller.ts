@@ -9,7 +9,10 @@ export class AuthController {
 
     @Post('login')
     async login(@Body() dto: LoginUserDto): Promise<RestResponse> {
-        throw new NotImplementedException();
+        return RestResponse.ok(
+            await this.userService.login(dto.email, dto.password),
+            200,
+        );
     }
 
     @Post('register')
