@@ -4,11 +4,13 @@ import { Model } from 'mongoose';
 import { DbUser, DbUserName } from 'src/schema/db/User';
 import { RegisterUserDto } from 'src/schema/dto/User';
 import * as argon2 from 'argon2';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
     constructor(
         @InjectModel(DbUserName) private readonly userModel: Model<DbUser>,
+        private readonly jwtService: JwtService,
     ) {}
 
     async login(email: string, password: string): Promise<any> {
@@ -20,8 +22,10 @@ export class UserService {
 
         // return jwt user object
         return {
-            id: dbUser.id,
-            username: dbUser.username,
+            token: await this.jwtService.signAsync({
+                id: dbUser.id,
+                username: dbUser.username,
+            }),
         }
     }
 
