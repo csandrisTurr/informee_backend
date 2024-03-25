@@ -1,4 +1,4 @@
-import { IsEmail, IsString, Length } from 'class-validator';
+import { IsEmail, IsJWT, IsString, Length } from 'class-validator';
 
 export class RegisterUserDto {
   @IsEmail()
@@ -25,4 +25,15 @@ export class LoginUserDto {
   // TODO: add check for sha512
   @IsString()
   password: string;
+}
+
+export class RenewTokenDto {
+  // TODO: add check for sha512
+  @IsString()
+  password: string;
+}
+
+export interface JwtPayload {
+  id: string;
+  username: string;
 }
