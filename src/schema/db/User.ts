@@ -1,11 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 
 @Schema()
 export class DbUser {
-  @Prop({ required: true })
-  id: string;
-
   @Prop({ required: true })
   username: string;
 
@@ -18,10 +15,10 @@ export class DbUser {
   @Prop({ required: true })
   password: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: mongoose.SchemaTypes.Date })
   updateDate: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: mongoose.SchemaTypes.Date })
   creationDate: string;
 
   @Prop()
