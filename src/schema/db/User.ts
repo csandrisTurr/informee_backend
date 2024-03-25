@@ -3,10 +3,10 @@ import mongoose, { HydratedDocument } from 'mongoose';
 
 @Schema()
 export class DbUser {
-  @Prop({ required: true })
+  @Prop({ required: true, index: { unique: true } })
   username: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, index: { unique: true } })
   email: string;
 
   @Prop({ required: true })
