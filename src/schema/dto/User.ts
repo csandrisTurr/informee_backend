@@ -1,4 +1,4 @@
-import { IsEmail, IsJWT, IsString, Length } from 'class-validator';
+import { IsEmail, IsString, Length, Matches } from 'class-validator';
 
 export class RegisterUserDto {
   @IsEmail()
@@ -6,11 +6,11 @@ export class RegisterUserDto {
   email: string;
 
   @IsString()
-  @Length(3, 24)
+  @Matches(/^[a-z0-9_-]{3,24}$/)
   username: string;
 
   @IsString()
-  @Length(3, 24)
+  @Matches(/^[a-zA-Z0-9 ]{3,24}$/)
   displayName: string;
 
   // TODO: add check for sha512
