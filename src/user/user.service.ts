@@ -1,10 +1,11 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { DbUser, DbUserName } from 'src/schema/db/User';
 import { JwtPayload, RegisterUserDto } from 'src/schema/dto/User';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
+import { RestResponse } from 'src/schema/dto/RestResponse';
 
 @Injectable()
 export class UserService {
@@ -12,6 +13,19 @@ export class UserService {
     @InjectModel(DbUserName) private readonly userModel: Model<DbUser>,
     private readonly jwtService: JwtService,
   ) {}
+
+  async getPublic(targetId: string) {
+    const dbUser = await this.userModel.findOne({ _id: targetId }).lean();
+
+    if (!dbUser) throw new NotFoundException();
+
+    const { password, updateDate, _id, __v, ...rest } = <any>dbUser;
+
+    return {
+      id: _id,
+      ...rest,
+    };
+  }
 
   // @returns the jwt token for the user
   async login(email: string, password: string): Promise<string> {
@@ -48,6 +62,13 @@ export class UserService {
   }
 
   async createUser(data: RegisterUserDto) {
+    const dbSameUsernameUser = await this.userModel.findOne({ username: data.username });
+    const dbSameEmailUser = await this.userModel.findOne({ email: data.email });
+
+    if (!!dbSameUsernameUser) throw RestResponse.err(400, 'USERNAME_EXISTS');
+
+    if (!!dbSameEmailUser) throw RestResponse.err(400, 'EMAIL_EXISTS');
+
     const dbUser = new this.userModel({
       username: data.username,
       displayName: data.displayName,
