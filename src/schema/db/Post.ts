@@ -8,7 +8,7 @@ export class DbPost {
 
   // author of the post
   @Prop({ required: true })
-  parent: string;
+  authorId: string;
 
   @Prop({ required: true })
   title: string;
