@@ -1,4 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class Post {}
+export class Post {
+    async createPost(data) {
+
+    }
+}
