@@ -17,9 +17,7 @@ export class PostController {
     @Post()
     async createPost(@Body() data: CreatePostDto, @User() user: JwtPayload) {
         return RestResponse.ok(
-            {
-              token: await this.postService.createPost(data, user.id),
-            },
+            await this.postService.createPost(data, user.id),
             200,
         );
     }
@@ -32,9 +30,7 @@ export class PostController {
     @Delete(':id')
     async deletePost(@Param('id') postId: string, @User() user: JwtPayload) {
         return RestResponse.ok(
-            {
-              token: await this.postService.deletePost(postId, user.id),
-            },
+            await this.postService.deletePost(postId, user.id),
             200,
         );
     }
