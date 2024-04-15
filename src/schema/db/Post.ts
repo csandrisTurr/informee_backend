@@ -3,9 +3,6 @@ import { HydratedDocument } from 'mongoose';
 
 @Schema()
 export class DbPost {
-  @Prop({ required: true, index: { unique: true } })
-  id: string;
-
   // author of the post
   @Prop({ required: true, index: true })
   authorId: string;

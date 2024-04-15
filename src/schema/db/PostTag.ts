@@ -3,9 +3,6 @@ import mongoose, { HydratedDocument } from 'mongoose';
 
 @Schema()
 export class DbPostTag {
-  @Prop({ required: true, index: { unique: true } })
-  id: string;
-
   @Prop({ required: true })
   name: string;
 }

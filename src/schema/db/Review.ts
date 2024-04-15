@@ -3,9 +3,6 @@ import { HydratedDocument } from 'mongoose';
 
 @Schema()
 export class DbReview {
-  @Prop({ required: true })
-  id: string;
-
   // author of the post
   @Prop({ required: true })
   userId: string;
