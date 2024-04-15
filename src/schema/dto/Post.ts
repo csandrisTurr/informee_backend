@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsArray, IsBoolean, IsEmail, IsString, Length, Matches, ValidateNested } from 'class-validator';
+import { IsArray, IsBoolean, IsEmail, IsOptional, IsString, Length, Matches, ValidateNested } from 'class-validator';
 
 export class CreatePostDto {
   @IsString()
@@ -19,5 +19,6 @@ export class CreatePostDto {
 
   @IsString()
   @Length(1024, 131072) // 2^10, 2^17
+  @IsOptional()
   content: string;
 }
