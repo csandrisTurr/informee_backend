@@ -9,9 +9,12 @@ import { PostService } from './post.service';
 export class PostController {
     constructor (private readonly postService: PostService) {}
 
-    @Get(':id')
-    async getPost() {
-        throw new NotImplementedException();
+    @Get(':id?')
+    async getPost(@Param('id') postId: string, @User() user: JwtPayload) {
+        return RestResponse.ok(
+            await this.postService.getPosts(user.id, postId),
+            200,
+        );
     }
 
     @Post()

@@ -8,6 +8,10 @@ import { RestResponse } from 'src/schema/dto/RestResponse';
 export class PostService {
     constructor (private readonly postModel: Model<DbPostDocument>) {}
 
+    async getPosts(userId: string, idFilter?: string): Promise<DbPostDocument[]> {
+        return await this.postModel.find({ authorId: userId, id: idFilter });
+    }
+
     async createPost(data: CreatePostDto, userId: string): Promise<DbPostDocument> {
         const dbPost = new this.postModel({
             authorId: userId,
