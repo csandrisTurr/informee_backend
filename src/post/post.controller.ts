@@ -34,7 +34,7 @@ export class PostController {
     }
 
     @Patch(':id/set_private/:bool')
-    async setContent(@Body() data: PostSetContentDto, @Param('id') postId: string, @Param('bool') bool: string, @User() user: JwtPayload) {
+    async setPrivate(@Body() data: PostSetContentDto, @Param('id') postId: string, @Param('bool') bool: string, @User() user: JwtPayload) {
         return RestResponse.ok(
             await this.postService.setPrivate(postId, user.id, bool == '1' ? true : false),
             200,
