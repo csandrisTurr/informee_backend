@@ -28,6 +28,36 @@ export class PostService {
         return dbPost;
     }
 
+    async setContent(postId: string, userId: string, newContent: string): Promise<boolean> {
+        const dbPost = await this.postModel.findOne({ id: postId, authorId: userId })
+
+        if (dbPost.authorId != userId)
+            throw RestResponse.err(
+                400,
+                'NO'
+            );
+
+        dbPost.content = newContent;
+        await dbPost.save();
+
+        return true;
+    }
+
+    async setPrivate(postId: string, userId: string, bool: boolean): Promise<boolean> {
+        const dbPost = await this.postModel.findOne({ id: postId, authorId: userId })
+
+        if (dbPost.authorId != userId)
+            throw RestResponse.err(
+                400,
+                'NO'
+            );
+
+        dbPost.private = bool;
+        await dbPost.save();
+
+        return true;
+    }
+
     async deletePost(postId: string, userId: string): Promise<boolean> {
         const dbPost = await this.postModel.findOne({ id: postId, authorId: userId })
 
