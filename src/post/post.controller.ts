@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, NotImplementedException, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotImplementedException, Param, Patch, Post, Query } from '@nestjs/common';
 import { CreatePostDto, PostSetContentDto } from 'src/schema/dto/Post';
 import { RestResponse } from 'src/schema/dto/RestResponse';
 import { JwtPayload } from 'src/schema/dto/User';
@@ -10,13 +10,13 @@ export class PostController {
   constructor(private readonly postService: PostService) {}
 
   @Get(':id?')
-  async getPost(@Param('id') postId: string, @User() user: JwtPayload) {
-    return RestResponse.ok(await this.postService.getPosts(user.id, postId), 200);
+  async getPosts(@Param('id') postId: string, @User() user: JwtPayload, @Query('from') from: string) {
+    return RestResponse.ok(await this.postService.getPosts({ idFilter: postId, from, userId: user.id }), 200);
   }
 
   @Post()
-  async createPost(@Body() data: CreatePostDto, @User() user: JwtPayload) {
-    return RestResponse.ok(await this.postService.createPost(data, user.id), 200);
+  async createPost(@User() user: JwtPayload) {
+    return RestResponse.ok(await this.postService.createPost(user.id), 200);
   }
 
   @Patch(':id/set_content')

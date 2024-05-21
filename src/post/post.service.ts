@@ -9,17 +9,30 @@ import { RestResponse } from 'src/schema/dto/RestResponse';
 export class PostService {
   constructor(@InjectModel(DbPostName) private readonly postModel: Model<DbPostDocument>) {}
 
-  async getPosts(userId: string, idFilter?: string): Promise<DbPostDocument[]> {
-    return await this.postModel.find({ authorId: userId, id: idFilter });
+  async getPosts(opts: { idFilter?: string, from?: string, userId: string }): Promise<DbPostDocument[]> {
+    const filter = {};
+    if (opts.idFilter) filter['_id'] = opts.idFilter;
+    if (opts.from) filter['authorId'] = opts.from;
+
+    const posts = await this.postModel.find(filter);
+
+    return posts.filter(post => {
+      if (post.authorId != opts.userId) {
+        if (post.private) return false;
+      }
+
+      return true;
+    });
   }
 
-  async createPost(data: CreatePostDto, userId: string): Promise<DbPostDocument> {
+  async createPost(userId: string): Promise<DbPostDocument> {
     const dbPost = new this.postModel({
       authorId: userId,
-      title: data.title,
+      title: 'Poszt',
       tags: [],
-      private: data.private,
-      description: data.description,
+      private: true,
+      description: '...',
+      content: '...',
       updateDate: new Date(),
       creationDate: new Date(),
     });
