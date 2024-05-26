@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, NotImplementedException, Param, Patch, Post, Query } from '@nestjs/common';
-import { CreatePostDto, PostSetContentDto } from 'src/schema/dto/Post';
+import { CreatePostDto, EditPostDto, PostSetContentDto } from 'src/schema/dto/Post';
 import { RestResponse } from 'src/schema/dto/RestResponse';
 import { JwtPayload } from 'src/schema/dto/User';
 import { User } from 'src/user/user.decorator';
@@ -17,6 +17,11 @@ export class PostController {
   @Post()
   async createPost(@User() user: JwtPayload) {
     return RestResponse.ok(await this.postService.createPost(user.id), 200);
+  }
+
+  @Patch(':id')
+  async editPost(@Body() data: EditPostDto, @Param('id') postId: string, @User() user: JwtPayload) {
+    return RestResponse.ok(await this.postService.editPost(postId, data, user.id), 200);
   }
 
   @Patch(':id/set_content')

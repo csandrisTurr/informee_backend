@@ -23,6 +23,32 @@ export class CreatePostDto {
   content: string;
 }
 
+export class EditPostDto {
+  @IsOptional()
+  @IsString()
+  @Length(8, 32)
+  title: string;
+
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => String)
+  tags: string[];
+
+  @IsOptional()
+  @IsBoolean()
+  private: boolean;
+
+  @IsOptional()
+  @IsString()
+  description: string;
+
+  @IsOptional()
+  @IsString()
+  @Length(1024, 131072) // 2^10, 2^17
+  content: string;
+}
+
 export class PostSetContentDto {
   @IsString()
   @Length(1024, 131072) // 2^10, 2^17

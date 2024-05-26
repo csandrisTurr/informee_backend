@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { DbPostDocument, DbPostName } from 'src/schema/db/Post';
-import { CreatePostDto } from 'src/schema/dto/Post';
+import { CreatePostDto, EditPostDto } from 'src/schema/dto/Post';
 import { RestResponse } from 'src/schema/dto/RestResponse';
 
 @Injectable()
@@ -36,6 +36,20 @@ export class PostService {
       updateDate: new Date(),
       creationDate: new Date(),
     });
+
+    await dbPost.save();
+
+    return dbPost;
+  }
+
+  async editPost(postId: string, newData: EditPostDto, userId: string): Promise<DbPostDocument> {
+    const dbPost = await this.postModel.findOne({ _id: postId, authorId: userId });
+
+    if (!dbPost) throw RestResponse.err(404, 'NOT_FOUND');
+
+    for (let key of Object.keys(newData)) {
+      dbPost[key] = newData[key];
+    }
 
     await dbPost.save();
 
