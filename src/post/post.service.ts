@@ -79,7 +79,7 @@ export class PostService {
   }
 
   async deletePost(postId: string, userId: string): Promise<boolean> {
-    const dbPost = await this.postModel.findOne({ id: postId, authorId: userId });
+    const dbPost = await this.postModel.deleteOne({ _id: postId, authorId: userId });
 
     if (!dbPost) throw RestResponse.err(404, 'NOT_FOUND');
 
