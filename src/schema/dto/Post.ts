@@ -3,7 +3,7 @@ import { IsArray, IsBoolean, IsEmail, IsOptional, IsString, Length, Matches, Val
 
 export class CreatePostDto {
   @IsString()
-  @Length(8, 32)
+  @Length(8, 64)
   title: string;
 
   @IsArray()
@@ -26,7 +26,7 @@ export class CreatePostDto {
 export class EditPostDto {
   @IsOptional()
   @IsString()
-  @Length(8, 32)
+  @Length(8, 64)
   title: string;
 
   @IsOptional()
