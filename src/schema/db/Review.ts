@@ -1,23 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, SchemaTypes } from 'mongoose';
+import { DbUserDocument, DbUserName } from './User';
+import { DbPostDocument, DbPostName } from './Post';
 
-@Schema()
+@Schema({ timestamps: true })
 export class DbReview {
   // author of the post
-  @Prop({ required: true })
-  userId: string;
+  @Prop({ type: SchemaTypes.ObjectId, required: true, index: true, ref: DbUserName })
+  author: DbUserDocument;
 
-  @Prop({ required: true })
-  postId: string;
+  @Prop({ type: SchemaTypes.ObjectId, required: true, index: true, ref: DbPostName })
+  post: DbPostDocument;
 
   @Prop({ required: true })
   content: string;
-
-  @Prop({ required: true })
-  updateDate: string;
-
-  @Prop({ required: true })
-  creationDate: string;
 
   // -1 = negative
   // 0 = neutral

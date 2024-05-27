@@ -13,12 +13,12 @@ export class PostService {
     @InjectModel(DbUserName) private readonly userModel: Model<DbUserDocument>,
   ) {}
 
-  async getPosts(opts: { idFilter?: string, from?: string, userId: string }): Promise<DbPostDocument[]> {
+  async getPosts(opts: { idFilter?: string, from?: string, userId: string, content: boolean }): Promise<DbPostDocument[]> {
     const filter = {};
     if (opts.idFilter) filter['_id'] = opts.idFilter;
     if (opts.from) filter['author'] = opts.from;
 
-    const posts = await this.postModel.find(filter).populate('author', '-password -email -updateDate -__v -creationDate').exec();
+    const posts = await this.postModel.find(filter, opts.content ? undefined : '-content').populate('author', '-password -email -updateDate -__v -creationDate').exec();
 
     return posts.filter(post => {
       if (post.author._id.toString() != opts.userId) {

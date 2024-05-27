@@ -10,8 +10,8 @@ export class PostController {
   constructor(private readonly postService: PostService) {}
 
   @Get(':id?')
-  async getPosts(@Param('id') postId: string, @User() user: JwtPayload, @Query('from') from: string) {
-    return RestResponse.ok(await this.postService.getPosts({ idFilter: postId, from, userId: user.id }), 200);
+  async getPosts(@Param('id') postId: string, @User() user: JwtPayload, @Query('from') from: string, @Query('content') content: boolean) {
+    return RestResponse.ok(await this.postService.getPosts({ idFilter: postId, from, userId: user.id, content }), 200);
   }
 
   @Post()
