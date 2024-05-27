@@ -1,11 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Model, SchemaTypes } from 'mongoose';
+import { DbUser, DbUserDocument, DbUserName, DbUserSchema } from './User';
 
-@Schema()
+@Schema({ virtuals: true })
 export class DbPost {
   // author of the post
-  @Prop({ required: true, index: true })
-  authorId: string;
+  @Prop({ type: SchemaTypes.ObjectId, required: true, index: true, ref: DbUserName })
+  author: DbUserDocument;
 
   @Prop({ required: true })
   title: string;

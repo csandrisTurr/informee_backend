@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 
-@Schema()
+@Schema({ virtuals: true })
 export class DbUser {
   @Prop({ required: true, index: { unique: true } })
   username: string;
