@@ -16,6 +16,10 @@ export class ReviewController {
     return RestResponse.ok(await this.reviewService.getReviewsForPost(postId), 200);
   }
 
+  @Get('likes/:postId')
+  async getLikesForPost(@Param('postId') postId: string, @User() user: JwtPayload) {
+    return RestResponse.ok(await this.reviewService.getLikesForPost(postId), 200);
+  }
 
   @Post('post/:postId')
   async createReview(@Body() data: CreateReviewDto, @Param('postId') postId: string, @User() user: JwtPayload) {

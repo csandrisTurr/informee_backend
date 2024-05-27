@@ -15,6 +15,18 @@ export class ReviewService {
     return await this.reviewModel.find({ post: postId }).populate('author', '-password -email -updateDate -__v -creationDate').exec();
   }
 
+  async getLikesForPost(postId: string): Promise<{ likes: number; dislikes: number }> {
+    let likes = 0;
+    let dislikes = 0;
+
+    (await this.reviewModel.find({ post: postId })).forEach(x => {
+      if (x.value > 0) likes++;
+      else dislikes++;
+    });
+
+    return { likes, dislikes };
+  }
+
   async createReview(data: CreateReviewDto, postId: string, userId: string): Promise<DbReviewDocument> {
     const dbReview = new this.reviewModel({
       post: new Types.ObjectId(postId),
