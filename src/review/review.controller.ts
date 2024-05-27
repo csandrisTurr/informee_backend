@@ -1,4 +1,4 @@
-import { Body, Controller, Get, NotImplementedException, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotImplementedException, Param, Patch, Post } from '@nestjs/common';
 import { RestResponse } from 'src/schema/dto/RestResponse';
 import { JwtPayload } from 'src/schema/dto/User';
 import { User } from 'src/user/user.decorator';
@@ -26,12 +26,12 @@ export class ReviewController {
     return RestResponse.ok(await this.reviewService.createReview(data, postId, user.id), 201);
   }
 
-  @Post(':id')
+  @Patch(':id')
   async editReview(@Body() data: EditReviewDto, @Param('id') reviewId: string, @User() user: JwtPayload) {
     return RestResponse.ok(await this.reviewService.editReview(data, reviewId, user.id), 200);
   }
   
-  @Post(':id')
+  @Delete(':id')
   async deleteReview(@Param('id') reviewId: string, @User() user: JwtPayload) {
     return RestResponse.ok(await this.reviewService.deleteReview(reviewId, user.id), 200);
   }
